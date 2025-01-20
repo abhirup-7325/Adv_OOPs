@@ -7,6 +7,59 @@ Repeat this process till the skip count becomes greater than the length of the l
 
 import java.util.*;
 
+class Vector {
+    private int[] arr;
+    private int size;
+    private int capacity;
+
+    public Vector() {
+        arr = new int[1];
+        size = 0;
+        capacity = 1;
+    }
+
+    public void add(int value) {
+        if (size == capacity) {
+            int[] temp = new int[2 * capacity];
+            for (int i = 0; i < capacity; i++) {
+                temp[i] = arr[i];
+            }
+            capacity *= 2;
+            arr = temp;
+        }
+        arr[size++] = value;
+    }
+
+    public int get(int index) {
+        if (index < 0 || index >= size) {
+            return -1;
+        }
+        return arr[index];
+    }
+
+    public void set(int index, int value) {
+        if (index < 0 || index >= size) {
+            return;
+        }
+        arr[index] = value;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public void clear() {
+        size = 0;
+    }
+
+    public void print() {
+        for (int i = 0; i < size; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+}
+
 class Solution {
     private int getInput() {
         Scanner scanner = new Scanner(System.in);
@@ -19,8 +72,8 @@ class Solution {
     }
 
     private void printJumpedSeries(int n) {
-        ArrayList<Integer> arr1 = new ArrayList<>();
-        ArrayList<Integer> arr2 = new ArrayList<>();
+        Vector arr1 = new Vector();
+        Vector arr2 = new Vector();
         for (int i = 1; i <= n; i++) {
             arr1.add(i);
         }
