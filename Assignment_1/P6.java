@@ -4,9 +4,6 @@ toppings he/she wants. A user may ask for any toppings. Implement this using (i)
 concept and (ii) command line arguments.
  */
 
-import java.util.*;
-
-
 class PizzaOrdering {
     public void orderVA(int size, String... toppings) {
         System.out.println("Pizza ordered with size " + size + " and toppings: ");
