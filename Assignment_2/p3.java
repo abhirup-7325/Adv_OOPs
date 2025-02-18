@@ -9,8 +9,6 @@ ArrayList<String/Integer>();).
 
 import java.util.*;
 
-import java.util.*;
-
 class Node {
     int data;
     Node left, right;
@@ -31,33 +29,26 @@ class BinaryTree {
         System.out.println("Enter number of nodes:");
         int n = scanner.nextInt();
         
-        // Create array to store all nodes
         nodes = new Node[n];
         
-        // First create all nodes
         System.out.println("Enter values for all " + n + " nodes:");
         for(int i = 0; i < n; i++) {
             int value = scanner.nextInt();
             nodes[i] = new Node(value);
         }
         
-        // Now connect nodes based on parent array
-        System.out.println("Enter parent for each node (Enter -1 for root):");
+        System.out.println("Enter index of left and right child for each node (-1 for null):");
         for(int i = 0; i < n; i++) {
-            int parent = scanner.nextInt();
-            if(parent == -1) {
-                root = nodes[i];  // This is the root node
-            } else {
-                // If parent's left child is empty, make this the left child
-                if(nodes[parent].left == null) {
-                    nodes[parent].left = nodes[i];
-                }
-                // Otherwise, make it the right child
-                else {
-                    nodes[parent].right = nodes[i];
-                }
-            }
+            System.out.println("Node " + nodes[i].data + " -> Enter left and right child indices:");
+            int leftIndex = scanner.nextInt();
+            int rightIndex = scanner.nextInt();
+            
+            if (leftIndex != -1) nodes[i].left = nodes[leftIndex];
+            if (rightIndex != -1) nodes[i].right = nodes[rightIndex];
         }
+        
+        root = nodes[0];
+        scanner.close();
     }
     
     public void printInorder(Node node) {
@@ -76,6 +67,42 @@ class BinaryTree {
         printTree(node.right, indent + "  ", "R:");
     }
     
+    public void printRootToLeaves() {
+        List<Integer> path = new ArrayList<>();
+        System.out.println("\nRoot-to-leaf paths:");
+        printPaths(root, path);
+    }
+    
+    private void printPaths(Node node, List<Integer> path) {
+        if (node == null) return;
+        
+        path.add(node.data);
+        
+        if (node.left == null && node.right == null) {
+            System.out.println(path);
+        } else {
+            printPaths(node.left, new ArrayList<>(path));
+            printPaths(node.right, new ArrayList<>(path));
+        }
+    }
+    
+    public void printTreePattern(Node root, int space) {
+        if (root == null) return;
+        
+        space += 10;
+        
+        printTreePattern(root.right, space);
+        
+        System.out.println();
+        for (int i = 10; i < space; i++)
+            System.out.print(" ");
+        System.out.println(root.data);
+        
+        printTreePattern(root.left, space);
+    }
+}
+
+public class p3 {
     public static void main(String[] args) {
         BinaryTree tree = new BinaryTree();
         tree.buildTree();
@@ -86,18 +113,10 @@ class BinaryTree {
         System.out.println("\nInorder traversal:");
         tree.printInorder(tree.root);
         System.out.println();
-    }
-
-    public void printRootToLeaves() {
         
-    }
-}
-
-public class p3 {
-    public static void main(String[] args) {
-        BinaryTree tree = new BinaryTree();
-        tree.buildTree();
-
         tree.printRootToLeaves();
+        
+        System.out.println("\nTree Pattern:");
+        tree.printTreePattern(tree.root, 0);
     }
 }
