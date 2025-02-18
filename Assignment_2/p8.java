@@ -9,7 +9,7 @@ would contain the following methods.
 (iv)Override toString()
 Your implementation should return the string backwards. Select one of the sentences from the
 lecture slide to use as the data. Write a small main method to test your class; make sure to call all
-four methods.
+four methods.  
  */
 
 public class p8 {

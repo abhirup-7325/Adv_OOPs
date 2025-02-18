@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 class StringAnalyzer {
-    private String inputString;
+    private String inputString; 
+     
 
     public StringAnalyzer(String input) {
         this.inputString = input;
