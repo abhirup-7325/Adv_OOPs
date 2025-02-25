@@ -9,6 +9,6 @@ three planets-Mars, Venus, and Saturn.
 Implement it using interfaces, abstract class, inheritance.
  */
 
-public class p9 {
+class p9 {
     
 }
