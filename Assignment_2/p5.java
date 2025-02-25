@@ -77,7 +77,7 @@ abstract class Customer {
 }
 
 class RegularCustomer extends Customer {
-    private static final double REGULAR_CREDIT_LIMIT = 50000.0;
+    private static final double REGULAR_CREDIT_LIMIT = 500000.0;
 
     public RegularCustomer(int customerId, String name, String phoneNumber) {
         super(customerId, name, phoneNumber, REGULAR_CREDIT_LIMIT);
@@ -85,7 +85,7 @@ class RegularCustomer extends Customer {
 }
 
 class PrivilegedCustomer extends Customer {
-    private static final double PRIVILEGED_CREDIT_LIMIT = 100000.0;
+    private static final double PRIVILEGED_CREDIT_LIMIT = 1000000.0;
 
     public PrivilegedCustomer(int customerId, String name, String phoneNumber) {
         super(customerId, name, phoneNumber, PRIVILEGED_CREDIT_LIMIT);
