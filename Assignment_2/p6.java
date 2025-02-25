@@ -6,6 +6,14 @@ from i) basic type to object ii) object to basic type iii) basic type to String 
 data) to numeric object v) object to String.
  */
 
-public class p6 {
+class Numeric {
+    int _num;
+
+    public Numeric(int num) {
+        _num = num;
+    }
+}
+
+class p6 {
     
 }
