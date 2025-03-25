@@ -57,24 +57,24 @@ class Saturn extends Planet {
     }
 }
 
-class RobotExplorer implements Explorer {
+class DoratheExplorer implements Explorer {
     @Override
     public void explore(Planet planet) {
-        System.out.println("Robot Explorer is analyzing surface composition on " + planet.name);
+        System.out.println("Dora The Explorer is analyzing surface composition on " + planet.name);
     }
 }
 
-class HumanExplorer implements Explorer {
+class NobitaExplorer implements Explorer {
     @Override
     public void explore(Planet planet) {
-        System.out.println("Human Explorer is collecting rock samples from " + planet.name);
+        System.out.println("Nobita is analyzing surface composition on " + planet.name);
     }
 }
 
 class DroneExplorer implements Explorer {
     @Override
     public void explore(Planet planet) {
-        System.out.println("Drone Explorer is scanning the atmosphere of " + planet.name);
+        System.out.println("Nobita is analyzing surface composition on " + planet.name);
     }
 }
 
@@ -84,8 +84,8 @@ public class p9 {
         Planet venus = new Venus();
         Planet saturn = new Saturn();
 
-        Explorer robot = new RobotExplorer();
-        Explorer human = new HumanExplorer();
+        Explorer robot = new DoratheExplorer();
+        Explorer human = new NobitaExplorer();
         Explorer drone = new DroneExplorer();
 
         mars.accept(robot);
