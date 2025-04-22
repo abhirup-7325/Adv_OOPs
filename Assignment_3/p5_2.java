@@ -1,32 +1,27 @@
 package Assignment_3;
 
-import java.util.Scanner;
 
 class Data {
     int value = 0;
 
-    synchronized void increment(int amount) {
+    void increment(int amount) {
         value += amount;
     }
 
-    synchronized void decrement(int amount) {
+    void decrement(int amount) {
         value -= amount;
     }
 }
 
 class IncrementThread extends Thread {
     Data data;
-    int amount;
+    int amount = 1;
 
     IncrementThread(Data data) {
         this.data = data;
     }
 
     public void run() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter a number to increment: ");
-        amount = sc.nextInt();
-
         data.increment(amount);
     }
 }
@@ -44,7 +39,7 @@ class DecrementThread extends Thread {
     }
 }
 
-public class p5 {
+public class p5_2 {
     public static void main(String[] args) {
         Data data = new Data();
 
@@ -53,20 +48,20 @@ public class p5 {
         Thread dec1 = new DecrementThread(data);
         Thread dec2 = new DecrementThread(data);
 
-        inc1.start(); 
-        inc2.start(); 
-        dec1.start(); 
+        inc1.start();
+        inc2.start();
+        dec1.start();
         dec2.start();
 
         try {
-            inc1.join(); 
-            inc2.join(); 
-            dec1.join(); 
+            inc1.join();
+            inc2.join();
+            dec1.join();
             dec2.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Final value with synchronization: " + data.value);
+        System.out.println("Final value without synchronization: " + data.value);
     }
 }

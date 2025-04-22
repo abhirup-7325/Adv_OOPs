@@ -1,135 +1,88 @@
 package Assignment_3;
 
-/*
- * 
- * Given preorder and inorder traversal outcomes of a family tree, construct and return the
-corresponding binary tree. If two nodes in the tree has the same depth then they are
-cousins. So, print the names who are cousins in generations of the family history. Try to use
-java collections classes and functions as much as you can.
- */
-
 import java.util.*;
 
-class TreeNode {
-    String name;
-    TreeNode left;
-    TreeNode right;
-    
-    public TreeNode(String name) {
-        this.name = name;
-        this.left = null;
-        this.right = null;
+class Node {
+    int data;
+    Node left, right;
+
+    Node(int x) {
+        data = x;
+        left = null;
+        right = null;
     }
 }
 
-public class FamilyTree {
-    // Global map to store inorder positions for O(1) lookup
-    private static Map<String, Integer> inOrderMap;
-    
-    public static void main(String[] args) {
-        // Example family tree
-        String[] preOrder = {"Parent", "ChildA", "GrandchildA1", "GrandchildA2", "ChildB", "GrandchildB1", "GrandchildB2"};
-        String[] inOrder = {"GrandchildA1", "ChildA", "GrandchildA2", "Parent", "GrandchildB1", "ChildB", "GrandchildB2"};
-        
-        // Build the family tree
-        TreeNode root = buildTree(preOrder, inOrder);
-        
-        // Find and print cousins
-        findAndPrintCousins(root);
-    }
-    
-    // Function to build the tree from preorder and inorder traversals
-    public static TreeNode buildTree(String[] preOrder, String[] inOrder) {
-        // Initialize the inorder map for O(1) lookup
-        inOrderMap = new HashMap<>();
-        for (int i = 0; i < inOrder.length; i++) {
-            inOrderMap.put(inOrder[i], i);
+class p3 {
+
+    static void printLevelOrder(Node root) {
+        if (root == null) {
+            System.out.println("Depth 0 -> []");
+            return;
         }
-        
-        // Call the recursive helper function
-        return buildTreeHelper(preOrder, 0, preOrder.length - 1, 0);
-    }
-    
-    private static TreeNode buildTreeHelper(String[] preOrder, int preStart, int preEnd, int inStart) {
-        if (preStart > preEnd) {
-            return null;
-        }
-        
-        // First element in preorder is the root
-        TreeNode root = new TreeNode(preOrder[preStart]);
-        
-        // Find root position in inorder
-        int rootPos = inOrderMap.get(root.name);
-        
-        // Calculate left subtree size
-        int leftSubtreeSize = rootPos - inStart;
-        
-        // Recursively build left and right subtrees
-        root.left = buildTreeHelper(preOrder, preStart + 1, preStart + leftSubtreeSize, inStart);
-        root.right = buildTreeHelper(preOrder, preStart + leftSubtreeSize + 1, preEnd, rootPos + 1);
-        
-        return root;
-    }
-    
-    // Function to find and print cousins
-    public static void findAndPrintCousins(TreeNode root) {
-        if (root == null) return;
-        
-        // Use level order traversal to find nodes at the same depth
-        Queue<TreeNode> queue = new LinkedList<>();
+
+        Queue<Node> queue = new LinkedList<>();
         queue.add(root);
-        
-        int level = 0;
-        
-        System.out.println("Family Tree Cousins by Generation:");
-        
+        int depth = 0;
+
         while (!queue.isEmpty()) {
             int levelSize = queue.size();
-            List<String> nodesAtLevel = new ArrayList<>();
-            
-            // Process all nodes at the current level
+            List<String> levelNodes = new ArrayList<>();
+
             for (int i = 0; i < levelSize; i++) {
-                TreeNode current = queue.poll();
-                nodesAtLevel.add(current.name);
-                
-                // Add children to the queue
-                if (current.left != null) queue.add(current.left);
-                if (current.right != null) queue.add(current.right);
+                Node curr = queue.poll();
+                if (curr == null) {
+                    levelNodes.add("N");
+                    queue.add(null);
+                    queue.add(null);
+                } else {
+                    levelNodes.add(String.valueOf(curr.data));
+                    queue.add(curr.left);
+                    queue.add(curr.right);
+                }
             }
-            
-            // Print cousins at this level if there are more than one
-            if (nodesAtLevel.size() > 1) {
-                System.out.println("Generation " + level + " cousins: " + String.join(", ", nodesAtLevel));
+
+            boolean allNulls = true;
+            for (String s : levelNodes) {
+                if (!s.equals("N")) {
+                    allNulls = false;
+                    break;
+                }
             }
-            
-            level++;
+
+            if (allNulls) break;
+
+            System.out.println("Depth " + depth + " -> " + levelNodes);
+            depth++;
         }
     }
-    
-    // Function to print the tree for verification (optional)
-    public static void printTree(TreeNode root) {
-        if (root == null) return;
-        
-        System.out.println("Preorder traversal:");
-        printPreOrder(root);
-        System.out.println();
-        
-        System.out.println("Inorder traversal:");
-        printInOrder(root);
-        System.out.println();
+
+    static int search(int[] inorder, int value, int left, int right) {
+        for (int i = left; i <= right; i++) {
+            if (inorder[i] == value) return i;
+        }
+        return -1;
     }
-    
-    private static void printPreOrder(TreeNode node) {
-        if (node == null) return;
-        System.out.print(node.name + " ");
-        printPreOrder(node.left);
-        printPreOrder(node.right);
+
+    static Node rec(int[] inorder, int[] preorder, int[] preIndex, int left, int right) {
+        if (left > right) return null;
+        int rootVal = preorder[preIndex[0]++];
+        Node root = new Node(rootVal);
+        int index = search(inorder, rootVal, left, right);
+        root.left = rec(inorder, preorder, preIndex, left, index - 1);
+        root.right = rec(inorder, preorder, preIndex, index + 1, right);
+        return root;
     }
-    
-    private static void printInOrder(TreeNode node) {
-        if (node == null) return;
-        printInOrder(node.left);
-        System.out.print(node.name + " ");
-        printInOrder(node.right);
+
+    static Node buildTree(int[] inorder, int[] preorder) {
+        int[] preIndex = {0};
+        return rec(inorder, preorder, preIndex, 0, preorder.length - 1);
+    }
+
+    public static void main(String[] args) {
+        int[] inorder = {3, 1, 4, 0, 5, 2};
+        int[] preorder = {0, 1, 3, 4, 2, 5};
+        Node root = buildTree(inorder, preorder);
+        printLevelOrder(root);
     }
 }

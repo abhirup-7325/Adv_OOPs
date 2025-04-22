@@ -51,8 +51,8 @@ d2 = np.zeros((n, m, k), dtype=int)
 d12 = np.zeros((n, m, k), dtype=int)
 
 for i in range(1, n):
-    for j in range(1, m):
-        for l in range(1, k):
+    for j in range(m):
+        for l in range(k):
             d1[i][j][l] = m1[i][j][l] - m1[i - 1][j][l]
             d2[i][j][l] = m2[i][j][l] - m2[i - 1][j][l]
 
@@ -60,3 +60,6 @@ for i in range(n):
     for j in range(m):
         for l in range(k):
             d12[i][j][l] = m1[i][j][l] - m2[i][j][l]
+
+
+print(d1, d2, d12, sep="\n\n")
